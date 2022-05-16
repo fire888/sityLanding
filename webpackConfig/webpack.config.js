@@ -1,6 +1,7 @@
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const webpack = require('webpack')
 
 module.exports = (env, { mode }) => {
@@ -18,6 +19,11 @@ module.exports = (env, { mode }) => {
         plugins: [
             new HtmlWebpackPlugin({
                 template: './public/index.html'
+            }),
+            new CopyWebpackPlugin({
+                patterns: [
+                    { from: "public/draco", to: "draco" }
+                ]
             }),
             new MiniCssExtractPlugin(),
             // new webpack.DefinePlugin({

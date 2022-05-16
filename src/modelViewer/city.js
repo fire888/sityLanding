@@ -1,6 +1,5 @@
 import * as THREE from 'three';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
+import { createLoader } from './helpers/loader'
 
 import sceneModelSrc from '../assets/sityModel/citylowcarblendwithbakecamera.gltf'
 import '../assets/sityModel/citylowcarblendwithbakecamera.bin'
@@ -17,7 +16,7 @@ import '../assets/sityModel/txtrs/aosecondary.png'
 import '../assets/sityModel/txtrs/aosecondary2.png'
 
 
-const DRACO_STATIC_PATH = 'draco/gltf/'
+
 
 
 export const createModel = (onComplete, onProcess = () => {}, onError = () => {}) => {
@@ -27,9 +26,90 @@ export const createModel = (onComplete, onProcess = () => {}, onError = () => {}
     let speedCam
 
 
-    const onLoadSuccess = (model) => {
+    const loader = createLoader()
+    loader.load(sceneModelSrc, onError, onProcess, model => {
         gltf = model
+
+        const arrTrees = []
+        const arrCars = []
+        const arrCubes = []
+
+        model.scene.traverse(item => {
+            if (!item.name) {
+                return;
+            }
+
+            if (item.name.includes('ель') || item.name.includes('дерево')) {
+                arrTrees.push(item)
+            }
+            if (item.name.includes('Машина')) {
+                arrCars.push(item)
+            }
+        })
+
+        // for (let i = 1; i < arrTrees.length; ++i) {
+        //     const newObj = new THREE.Mesh(
+        //         arrTrees[0].geometry,
+        //         arrTrees[0].material,
+        //     )
+        //     newObj.position.x = arrTrees[i].position.x
+        //     newObj.position.y = arrTrees[i].position.y
+        //     newObj.position.z = arrTrees[i].position.z
+        //
+        //     model.scene.remove(arrTrees[i])
+        //     arrTrees[i].geometry.dispose()
+        //     arrTrees[i].material.dispose()
+        //
+        //     model.scene.add(newObj)
+        // }
+
+        // for (let i = 1; i < arrCars.length; ++i) {
+        //
+        //
+        //
+        //     arrCars[i].geometry.dispose()
+        //     arrCars[i].geometry = arrCars[0].geometry
+        //     arrCars[i].geometry.needsUpdate = true
+        //     arrCars[i].material.dispose()
+        //     arrCars[i].material = arrCars[0].material
+        //     arrCars[i].material.needsUpdate = true
+        // }
+
+        // for (let i = 0; i < arrCars.length; ++i) {
+        //     model.scene.remove(arrCars[i])
+        //     arrCars[i].geometry.dispose()
+        //     arrCars[i].material.dispose()
+        // }
+
+        model.scene.traverse(item => {
+            if (!item.name) {
+                return;
+            }
+
+            // if (
+            //     //true
+            //     //item.name.includes('Куб')
+            //     //|| item.name.includes('Плоскость')
+            //     //|| item.name.includes('Икосфера')
+            //     //|| item.name.includes('земля')
+            //     //|| item.name.includes('Landscape')
+            // ) {
+            //     arrCubes.push(item)
+            // }
+
+            console.log(item.name)
+        })
+
+        for (let i = 0; i < arrCubes.length; ++i) {
+            model.scene.remove(arrCubes[i])
+            arrCubes[i].geometry && arrCubes[i].geometry.dispose()
+            arrCubes[i].material && arrCubes[i].material.dispose()
+        }
+
+
+
         mixer = new THREE.AnimationMixer( gltf.scene );
+
 
         const clips = gltf.animations
         clips.forEach( function ( clip ) {
@@ -49,27 +129,9 @@ export const createModel = (onComplete, onProcess = () => {}, onError = () => {}
 
 
         onComplete()
-    }
+    })
 
 
-    const onLoadProcess = val => {
-        const v = val.loaded / val.total * 100
-        console.log( v + '% loaded' );
-        onProcess(v)
-    }
-
-    const onLoadError = (err) => {
-        console.log( 'An error happened', err )
-        onError(err)
-    }
-
-
-    const dracoLoader = new DRACOLoader()
-    dracoLoader.setDecoderPath(DRACO_STATIC_PATH)
-    dracoLoader.setDecoderConfig({type: 'js'})
-    const loader = new GLTFLoader()
-    loader.setDRACOLoader( dracoLoader )
-    loader.load(sceneModelSrc, onLoadSuccess, onLoadProcess, onLoadError)
 
 
     let oldPhaseCam = 0
@@ -81,8 +143,8 @@ export const createModel = (onComplete, onProcess = () => {}, onError = () => {}
         getCamera () {
             return gltf.cameras[0]
         },
-        update () {
-            mixer && mixer.update(0.008)
+        update (n) {
+            mixer && mixer.update(0.008 * n)
         },
         updateAnimationCamera (phase) {
             if (!cameraForAnimationMixer) {

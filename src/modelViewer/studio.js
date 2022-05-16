@@ -5,15 +5,18 @@ import envMapSrc from '../assets/Frame8744.png'
 
 
 export const createStudio = () => {
-    const renderer = new THREE.WebGLRenderer({ antialias: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio( window.devicePixelRatio );
-    //renderer.outputEncoding = THREE.sRGBEncoding;
-    //renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    //renderer.physicallyCorrectLights = true;
     const container = document.querySelector('#scene');
     container.style.width = window.innerWidth + 'px'
     container.style.height = window.innerHeight + 'px';
+
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setPixelRatio( /*window.devicePixelRatio*/ 1 );
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.outputEncoding = THREE.sRGBEncoding;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.physicallyCorrectLights = true;
+
     container.appendChild( renderer.domElement );
     // //! Shadows
     // renderer.shadowMap.enabled = true;

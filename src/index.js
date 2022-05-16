@@ -7,11 +7,13 @@ import { createStudio } from './modelViewer/studio'
 import { createModel } from './modelViewer/city'
 
 
-export const threeApp = () => {
+const threeApp = () => {
     const studio = createStudio()
     const city = createModel(() => {
         studio.addToScene(city.getScene())
         studio.setCamera(city.getCamera())
+        onWindowResize()
+        studio.render()
     })
 
 
@@ -20,22 +22,16 @@ export const threeApp = () => {
 
 
 
-    const cursor = {
-        x: 0,
-        y: 0,
-    }
-    window.addEventListener('mousemove', (e) => {
-        cursor.x = e.clientX / window.innerWidth - 0.5;
-        cursor.y = e.clientY / window.innerHeight - 0.5;
-    })
 
 
-
-
+    let oldTime = Date.now()
     const animate = () => {
         requestAnimationFrame( animate );
         stats.begin()
-        city.update()
+        const currentTime = Date.now()
+        const diff = currentTime - oldTime
+        oldTime = currentTime
+        city.update(diff / 15)
         studio.render()
         stats.end()
     }
@@ -56,13 +52,10 @@ export const threeApp = () => {
 
     const scrollContainer = document.querySelector('#scroll-container');
     const scrolledContainer = document.querySelector('.scene-container');
-    let defBetweenBlockAndScroll = scrollContainer.offsetHeight - scrolledContainer.offsetHeight;
-    console.log(`scroll points: ${defBetweenBlockAndScroll}`);
-
+    const defBetweenBlockAndScroll = scrollContainer.offsetHeight - scrolledContainer.offsetHeight;
     scrolledContainer.addEventListener('scroll', e => {
-        let newScrollValue = scrolledContainer.scrollTop;
-        city.updateAnimationCamera(newScrollValue / defBetweenBlockAndScroll)
-    });
+        city.updateAnimationCamera(scrolledContainer.scrollTop / defBetweenBlockAndScroll)
+    })
 
 
 
@@ -85,7 +78,7 @@ export const threeApp = () => {
 threeApp()
 
 
-/** TRESH
+/** OLD
 
 import WebGL from './WebGL.js';
 // tween
