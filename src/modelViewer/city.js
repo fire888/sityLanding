@@ -28,6 +28,7 @@ export const createModel = (onComplete, onProcess = () => {}, onError = () => {}
 
     const loader = createLoader()
     loader.load(sceneModelSrc, onError, onProcess, model => {
+        console.log(model)
         gltf = model
 
         const arrTrees = []
@@ -111,13 +112,13 @@ export const createModel = (onComplete, onProcess = () => {}, onError = () => {}
         mixer = new THREE.AnimationMixer( gltf.scene );
 
 
-        const clips = gltf.animations
-        clips.forEach( function ( clip ) {
-            if (clip.name !== 'Action') {
-                mixer.clipAction( clip ).clampWhenFinished = true;
-                mixer.clipAction( clip ).play();
-            }
-        })
+        // const clips = gltf.animations
+        // clips.forEach( function ( clip ) {
+        //     if (clip.name !== 'Action') {
+        //         mixer.clipAction( clip ).clampWhenFinished = true;
+        //         mixer.clipAction( clip ).play();
+        //     }
+        // })
 
 
 
