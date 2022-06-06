@@ -9,32 +9,32 @@ module.exports = {
 		rules: [
 			{ test: /\.txt$/, use: 'raw-loader' },
 			{
-                test: /\.(png|svg|jpg|gif|ttf|bin)$/,
-                use: [{
-                  loader: 'file-loader',
-                  options: {
-                    name: '[name].[ext]',
-                    outputPath: ''
-                  }
-                }]
-            },
-              { test: /\.(obj|glb|gltf|FBX)$/,
-                use: [{
-                  loader: 'file-loader',
-                  options: {
-                    name: '[name].[ext]',
-                    outputPath: ''
-                  }
-                }]
-              },
-            {
-                test: /\.css$/i,
-                use: [
-                    { loader: "style-loader", options: { injectType: "styleTag" } },
-                    'css-loader'
-                ]
-            },
-
+        test: /\.(png|svg|jpg|gif|ttf)$/,
+        use: [{
+          loader: 'file-loader',
+          options: {
+            name: '[name].[ext]',
+            outputPath: '/txtrs'
+          }
+        }]
+      },
+      { 
+        test: /\.(obj|glb|gltf|FBX|bin)$/,
+        use: [{
+          loader: 'file-loader',
+          options: {
+            name: '[name].[ext]',
+            outputPath: ''
+          }
+        }]
+      },
+      {
+        test: /\.css$/i,
+        use: [
+          { loader: "style-loader", options: { injectType: "styleTag" } },
+          'css-loader'
+        ]
+      },
 		]
 	},
 	plugins: [

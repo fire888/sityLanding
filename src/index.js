@@ -59,13 +59,13 @@ const threeApp = () => {
 
 
 
-    const scrollContainer = document.querySelector('#scroll-container');
-    const scrolledContainer = document.querySelector('.scene-container');
-    const defBetweenBlockAndScroll = scrollContainer.offsetHeight - scrolledContainer.offsetHeight;
-    scrolledContainer.addEventListener('scroll', e => {
-        console.log('scroll')
-        //city.updateAnimationCamera(scrolledContainer.scrollTop / defBetweenBlockAndScroll)
-    })
+    // const scrollContainer = document.querySelector('#scroll-container');
+    // const scrolledContainer = document.querySelector('.scene-container');
+    // const defBetweenBlockAndScroll = scrollContainer.offsetHeight - scrolledContainer.offsetHeight;
+    // scrolledContainer.addEventListener('scroll', e => {
+    //     console.log('scroll')
+    //     //city.updateAnimationCamera(scrolledContainer.scrollTop / defBetweenBlockAndScroll)
+    // })
 
 
 

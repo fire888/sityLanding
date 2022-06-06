@@ -96,8 +96,13 @@ export const createModel = (onComplete, onProcess = () => {}, onError = () => {}
         materials['Плоскость003_2'].color = new THREE.Color(.93, 1, .93)
         materials['Плоскость003_2'].map = null
 
-        /** okna */
-        materials['Плоскость003_3'].color = new THREE.Color(.65, .65, .7)
+        setTimeout(() => {
+            /** okna */
+            if (materials['Плоскость003_3']) {
+                materials['Плоскость003_3'].color = new THREE.Color(.65, .65, .7)
+            }
+        }, 100)
+
 
         /** skyscreapers */
         materials['Плоскость005_2'].color = new THREE.Color(.93, 1, .93)
