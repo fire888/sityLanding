@@ -8,10 +8,21 @@ import { createModel } from './modelViewer/city'
 
 
 const threeApp = () => {
+
     const studio = createStudio()
+
+    const onWindowResize = () =>  {
+        studio.resize()
+    }
+    window.addEventListener('resize', onWindowResize, false)
+    onWindowResize()
+
+
+
+
     const city = createModel(() => {
         studio.addToScene(city.getScene())
-        studio.setCamera(city.getCamera())
+        //studio.setCamera(city.getCamera())
         onWindowResize()
         studio.render()
     })
@@ -27,10 +38,13 @@ const threeApp = () => {
     let oldTime = Date.now()
     const animate = () => {
         requestAnimationFrame( animate );
-        stats.begin()
         const currentTime = Date.now()
         const diff = currentTime - oldTime
+        //if (diff < 30) {
+        //    return;
+        //}
         oldTime = currentTime
+        stats.begin()
         city.update(diff / 15)
         studio.render()
         stats.end()
@@ -41,11 +55,6 @@ const threeApp = () => {
 
 
 
-    const onWindowResize = () =>  {
-        studio.resize()
-    }
-    window.addEventListener('resize', onWindowResize, false)
-    onWindowResize()
 
 
 
@@ -54,7 +63,8 @@ const threeApp = () => {
     const scrolledContainer = document.querySelector('.scene-container');
     const defBetweenBlockAndScroll = scrollContainer.offsetHeight - scrolledContainer.offsetHeight;
     scrolledContainer.addEventListener('scroll', e => {
-        city.updateAnimationCamera(scrolledContainer.scrollTop / defBetweenBlockAndScroll)
+        console.log('scroll')
+        //city.updateAnimationCamera(scrolledContainer.scrollTop / defBetweenBlockAndScroll)
     })
 
 

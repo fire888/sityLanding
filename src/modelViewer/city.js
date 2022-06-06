@@ -31,13 +31,29 @@ export const createModel = (onComplete, onProcess = () => {}, onError = () => {}
         console.log(model)
         gltf = model
 
+        gltf.scene.scale.set(.7, .7, .7)
+
         const arrTrees = []
         const arrCars = []
         const arrCubes = []
 
+        let maxCount = 200
+        const materials = {}
+
+
         model.scene.traverse(item => {
             if (!item.name) {
                 return;
+            }
+
+            if (item.material) {
+                let isIn = false
+                for (let key in materials) {
+                    if (materials[key].uuid === item.material.uuid) {
+                        isIn = true
+                    }
+                }
+                !isIn && (materials[item.name] = item.material)
             }
 
             if (item.name.includes('ель') || item.name.includes('дерево')) {
@@ -47,6 +63,70 @@ export const createModel = (onComplete, onProcess = () => {}, onError = () => {}
                 arrCars.push(item)
             }
         })
+
+        console.log(materials)
+        /** top logo */
+        materials['Плоскость025_2'].color = new THREE.Color(.85, 0, .93)
+        /** logo2 */
+        materials['Плоскость025_1'].color = new THREE.Color(.85, 0, .93)
+
+
+
+        /** деревья машины */
+        materials['дерево2346'].color = new THREE.Color(.9, 1, 1)
+
+        /** гора */
+        //materials['Landscape002'].color = new THREE.Color(.90, .93, .85)
+        materials['Landscape002'].color = new THREE.Color(.85, 1, .93)
+
+        /** ракета */
+        materials['Куб009_1'].color = new THREE.Color(.91, .93, .99)
+
+        /** дома3 */
+        materials['Куб046'].color = new THREE.Color(.86, .94, .86)
+
+        /** дома2 */
+        materials['Куб019_1'].color = new THREE.Color(.93, 1, .93)
+
+        /** factory */
+        materials['Куб020'].color = new THREE.Color(.93, 1, .93)
+        materials['Куб020'].map = null
+
+        /** main */
+        materials['Плоскость003_2'].color = new THREE.Color(.93, 1, .93)
+        materials['Плоскость003_2'].map = null
+
+        /** okna */
+        materials['Плоскость003_3'].color = new THREE.Color(.65, .65, .7)
+
+        /** skyscreapers */
+        materials['Плоскость005_2'].color = new THREE.Color(.93, 1, .93)
+        materials['Плоскость005_2'].map = null
+
+        /** hotel */
+        materials['Плоскость007_1'].color = new THREE.Color(.93, 1, .93)
+        materials['Плоскость007_1'].map = null
+
+        /** treo  */
+        materials['Плоскость008_1'].color = new THREE.Color(.93, 1, .93)
+        materials['Плоскость008_1'].map = null
+
+        /** road */
+        materials['Плоскость009'].color = new THREE.Color(.77, .87, .93)
+
+        /** color areas */
+        materials['Плоскость009_1'].color = new THREE.Color(.83, .3, .93)
+
+        /** ground town */
+        materials['Плоскость009_2'].color = new THREE.Color(.83, 1, .9)
+
+        /** land */
+        materials['Плоскость009_3'].color = new THREE.Color(.85, 1, .93)
+        materials['Плоскость009_3'].map = null
+
+
+
+
 
         // for (let i = 1; i < arrTrees.length; ++i) {
         //     const newObj = new THREE.Mesh(
@@ -64,16 +144,15 @@ export const createModel = (onComplete, onProcess = () => {}, onError = () => {}
         //     model.scene.add(newObj)
         // }
 
-        // for (let i = 1; i < arrCars.length; ++i) {
-        //
-        //
-        //
+        // for (let i = 0; i < arrCars.length; ++i) {
         //     arrCars[i].geometry.dispose()
-        //     arrCars[i].geometry = arrCars[0].geometry
+        //     //arrCars[i].geometry = arrCars[0].geometry
         //     arrCars[i].geometry.needsUpdate = true
         //     arrCars[i].material.dispose()
-        //     arrCars[i].material = arrCars[0].material
-        //     arrCars[i].material.needsUpdate = true
+        //     gltf.scene.remove(arrCars[i])
+        //
+        //     //arrCars[i].material = arrCars[0].material
+        //     //arrCars[i].material.needsUpdate = true
         // }
 
         // for (let i = 0; i < arrCars.length; ++i) {
@@ -98,32 +177,32 @@ export const createModel = (onComplete, onProcess = () => {}, onError = () => {}
             //     arrCubes.push(item)
             // }
 
-            console.log(item.name)
+            //console.log(item.name)
         })
 
-        for (let i = 0; i < arrCubes.length; ++i) {
-            model.scene.remove(arrCubes[i])
-            arrCubes[i].geometry && arrCubes[i].geometry.dispose()
-            arrCubes[i].material && arrCubes[i].material.dispose()
-        }
+        // for (let i = 0; i < arrCubes.length; ++i) {
+        //     model.scene.remove(arrCubes[i])
+        //     arrCubes[i].geometry && arrCubes[i].geometry.dispose()
+        //     arrCubes[i].material && arrCubes[i].material.dispose()
+        // }
 
 
 
         mixer = new THREE.AnimationMixer( gltf.scene );
 
 
-        // const clips = gltf.animations
-        // clips.forEach( function ( clip ) {
-        //     if (clip.name !== 'Action') {
-        //         mixer.clipAction( clip ).clampWhenFinished = true;
-        //         mixer.clipAction( clip ).play();
-        //     }
-        // })
+        const clips = gltf.animations
+        clips.forEach( function ( clip ) {
+            if (clip.name !== 'Action') {
+                mixer.clipAction( clip ).clampWhenFinished = true;
+                mixer.clipAction( clip ).play();
+            }
+        })
 
 
 
-        cameraForAnimationMixer = new THREE.AnimationMixer( gltf.scene.children[1] )
-        const cameraForAnimationClip = gltf.animations[1]
+        cameraForAnimationMixer = new THREE.AnimationMixer( gltf.scene.children[0] )
+        const cameraForAnimationClip = gltf.animations[0]
         speedCam = 1 / (cameraForAnimationClip.duration - 0.01);
         const cameraForAnimationAction = cameraForAnimationMixer.clipAction(cameraForAnimationClip)
         cameraForAnimationAction.play()
@@ -145,9 +224,15 @@ export const createModel = (onComplete, onProcess = () => {}, onError = () => {}
             return gltf.cameras[0]
         },
         update (n) {
-            mixer && mixer.update(0.008 * n)
+            if (!mixer) {
+                return
+            }
+            mixer.update(0.008 * n)
+            //cameraForAnimationMixer
+            //cameraForAnimationMixer.update()
         },
         updateAnimationCamera (phase) {
+            console.log('update')
             if (!cameraForAnimationMixer) {
                return;
             }
