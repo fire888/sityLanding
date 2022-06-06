@@ -37,10 +37,23 @@ export const createModel = (onComplete, onProcess = () => {}, onError = () => {}
         const arrCars = []
         const arrCubes = []
 
+        let maxCount = 200
+        const materials = {}
+
 
         model.scene.traverse(item => {
             if (!item.name) {
                 return;
+            }
+
+            if (item.material) {
+                let isIn = false
+                for (let key in materials) {
+                    if (materials[key].uuid === item.material.uuid) {
+                        isIn = true
+                    }
+                }
+                !isIn && (materials[item.name] = item.material)
             }
 
             if (item.name.includes('ель') || item.name.includes('дерево')) {
@@ -50,6 +63,70 @@ export const createModel = (onComplete, onProcess = () => {}, onError = () => {}
                 arrCars.push(item)
             }
         })
+
+        console.log(materials)
+        /** top logo */
+        materials['Плоскость025_2'].color = new THREE.Color(.85, 0, .93)
+        /** logo2 */
+        materials['Плоскость025_1'].color = new THREE.Color(.85, 0, .93)
+
+
+
+        /** деревья машины */
+        materials['дерево2346'].color = new THREE.Color(.9, 1, 1)
+
+        /** гора */
+        //materials['Landscape002'].color = new THREE.Color(.90, .93, .85)
+        materials['Landscape002'].color = new THREE.Color(.85, 1, .93)
+
+        /** ракета */
+        materials['Куб009_1'].color = new THREE.Color(.91, .93, .99)
+
+        /** дома3 */
+        materials['Куб046'].color = new THREE.Color(.86, .94, .86)
+
+        /** дома2 */
+        materials['Куб019_1'].color = new THREE.Color(.93, 1, .93)
+
+        /** factory */
+        materials['Куб020'].color = new THREE.Color(.93, 1, .93)
+        materials['Куб020'].map = null
+
+        /** main */
+        materials['Плоскость003_2'].color = new THREE.Color(.93, 1, .93)
+        materials['Плоскость003_2'].map = null
+
+        /** okna */
+        materials['Плоскость003_3'].color = new THREE.Color(.65, .65, .7)
+
+        /** skyscreapers */
+        materials['Плоскость005_2'].color = new THREE.Color(.93, 1, .93)
+        materials['Плоскость005_2'].map = null
+
+        /** hotel */
+        materials['Плоскость007_1'].color = new THREE.Color(.93, 1, .93)
+        materials['Плоскость007_1'].map = null
+
+        /** treo  */
+        materials['Плоскость008_1'].color = new THREE.Color(.93, 1, .93)
+        materials['Плоскость008_1'].map = null
+
+        /** road */
+        materials['Плоскость009'].color = new THREE.Color(.77, .87, .93)
+
+        /** color areas */
+        materials['Плоскость009_1'].color = new THREE.Color(.83, .3, .93)
+
+        /** ground town */
+        materials['Плоскость009_2'].color = new THREE.Color(.83, 1, .9)
+
+        /** land */
+        materials['Плоскость009_3'].color = new THREE.Color(.85, 1, .93)
+        materials['Плоскость009_3'].map = null
+
+
+
+
 
         // for (let i = 1; i < arrTrees.length; ++i) {
         //     const newObj = new THREE.Mesh(

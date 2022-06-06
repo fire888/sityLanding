@@ -22,7 +22,7 @@ const threeApp = () => {
 
     const city = createModel(() => {
         studio.addToScene(city.getScene())
-        studio.setCamera(city.getCamera())
+        //studio.setCamera(city.getCamera())
         onWindowResize()
         studio.render()
     })
@@ -64,7 +64,7 @@ const threeApp = () => {
     const defBetweenBlockAndScroll = scrollContainer.offsetHeight - scrolledContainer.offsetHeight;
     scrolledContainer.addEventListener('scroll', e => {
         console.log('scroll')
-        city.updateAnimationCamera(scrolledContainer.scrollTop / defBetweenBlockAndScroll)
+        //city.updateAnimationCamera(scrolledContainer.scrollTop / defBetweenBlockAndScroll)
     })
 
 

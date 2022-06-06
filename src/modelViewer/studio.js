@@ -4,6 +4,8 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 
 
+const BACK_COLOR = 0xDBE5FF
+
 
 export const createStudio = () => {
     const container = document.querySelector('#scene');
@@ -11,9 +13,10 @@ export const createStudio = () => {
     container.style.height = window.innerHeight + 'px';
 
 
-    const renderer = new THREE.WebGLRenderer({ antialias: false });
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setPixelRatio( /*window.devicePixelRatio*/ 1 );
     renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setClearColor(BACK_COLOR, 1)
     //renderer.outputEncoding = THREE.sRGBEncoding;
     //renderer.toneMapping = THREE.ACESFilmicToneMapping;
     //renderer.physicallyCorrectLights = true;
@@ -33,24 +36,32 @@ export const createStudio = () => {
     camera.lookAt(0, 0, 0)
     scene.add(camera)
 
-    // const controls = new OrbitControls(camera, renderer.domElement);
-    // controls.minDistance = 2;
-    // controls.maxDistance = 40000;
-    // controls.target.set( 0, 0, 200);
-    // controls.update();
-    // controls.maxPolarAngle = Math.PI / 2 - 0.1
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.minDistance = 2;
+    controls.maxDistance = 40000;
+    controls.target.set( 0, 0, 200);
+    controls.update();
+    controls.maxPolarAngle = Math.PI / 2 - 0.1
 
+    const directionalLight = new THREE.DirectionalLight( 0xFFC9F6, 0.4);
+    directionalLight.position.set(0, 100, -50)
+    directionalLight.target.position.set(0, 0, 0)
+    scene.add( directionalLight );
 
-    const light = new THREE.PointLight( 0xFFF5E5, .8 )
-    light.position.set(20, 20, 40)
-    camera.add(light)
+    //const light = new THREE.PointLight( 0xFFF5E5, 1.4 )
+    //light.position.set(20, 20, 40)
+    //camera.add(light)
 
-    const light2 = new THREE.PointLight( 0xFFF5E5, .2 )
-    light2.position.set(-30, 20, -40)
-    camera.add(light2)
+    //const light2 = new THREE.PointLight( 0xFFF5E5, .1)
+    //light2.position.set(-30, 20, -40)
+    //camera.add(light2)
 
-    const ambLight = new THREE.AmbientLight(0x474954)
+    const ambLight = new THREE.AmbientLight(0xECC9FF, .8)
     scene.add(ambLight)
+
+
+    const fog = new THREE.Fog( BACK_COLOR, 100, 500)
+    scene.fog = fog
 
 
 
