@@ -36,6 +36,7 @@ export const createActions = root => {
             flyControls.enable()
             studio.setCamera(flyControls.getCamera())
             studio.render()
+            ui.hideStartScreen()
         },
         toggleViewMode (mode) {
             if (mode === 'walk') {
