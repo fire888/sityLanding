@@ -1,4 +1,9 @@
 import * as THREE from 'three';
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js'
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
+import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js'
+import { Saturate } from './shaders/saturate'
+
 
 const BACK_COLOR = 0xDBE5FF
 
@@ -31,6 +36,18 @@ export const createStudio = () => {
     camera.lookAt(0, 0, 0)
     scene.add(camera)
 
+
+
+    const composer = new EffectComposer(renderer)
+    const renderPass = new RenderPass(scene, camera)
+    composer.addPass(renderPass)
+    const saturate = new ShaderPass(Saturate)
+    composer.addPass(saturate)
+
+    console.log(saturate)
+
+
+
     const directionalLight = new THREE.DirectionalLight( 0xFFC9F6, 0.4);
     directionalLight.position.set(0, 100, -50)
     directionalLight.target.position.set(0, 0, 0)
@@ -42,6 +59,7 @@ export const createStudio = () => {
     const fog = new THREE.Fog( BACK_COLOR, 100, 500)
     scene.fog = fog
 
+    let time = 0.01
 
     return {
         addToScene(model) {
@@ -54,10 +72,15 @@ export const createStudio = () => {
           return renderer;
         },
         render () {
-           camera && renderer.render( scene, camera );
+            time += 0.01
+            saturate.uniforms.uTime.value = time
+            saturate.uniforms.uNoiseMix.value = (Math.sin(time) + 1) * .1
+            composer.render(scene, camera)
+           //camera && renderer.render( scene, camera );
         },
         setCamera (cam) {
             camera = cam
+            renderPass.camera = camera
         },
         resize () {
             if (!camera) {
