@@ -5,7 +5,11 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 export const createFlyControls = root => {
     const camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, .01, 3000);
-    camera.position.set( 0, 100, -100);
+    camera.position.set( -131, 45, 75);
+
+    document.addEventListener('click', () => {
+        console.log(camera.position, controls.target)
+    })
 
 
     const controls = new OrbitControls(camera, root.studio.getRenderer().domElement);
