@@ -7,8 +7,9 @@ module.exports = merge.merge( appCommonConfig, {
   devtool: 'inline-source-map',
   devServer: {
     contentBase: path.join(__dirname, '../public'),
-    host: 'localhost',
+    //host: 'localhost',
+    host: '192.168.0.101',
     compress: true,
-    port: 9001
+    port: 9000
   }
 });

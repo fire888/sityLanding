@@ -3,17 +3,17 @@ import { createLoader } from './helpers/loader'
 
 import sceneModelSrc from '../assets/sityModel/citylowcarblendwithbakecamera.gltf'
 import '../assets/sityModel/citylowcarblendwithbakecamera.bin'
-import '../assets/sityModel/txtrs/aobuild1.png'
-import '../assets/sityModel/txtrs/aobuild2.png'
-import '../assets/sityModel/txtrs/aobuild3.png'
-import '../assets/sityModel/txtrs/aobuild4.png'
-import '../assets/sityModel/txtrs/aobuild5.png'
-import '../assets/sityModel/txtrs/aobuild6 21312.png'
-import '../assets/sityModel/txtrs/aoground2.png'
-import '../assets/sityModel/txtrs/aoground23123.png'
-import '../assets/sityModel/txtrs/aomountain12312.png'
-import '../assets/sityModel/txtrs/aosecondary.png'
-import '../assets/sityModel/txtrs/aosecondary2.png'
+// import '../assets/sityModel/txtrs/aobuild1.png'
+// import '../assets/sityModel/txtrs/aobuild2.png'
+// import '../assets/sityModel/txtrs/aobuild3.png'
+// import '../assets/sityModel/txtrs/aobuild4.png'
+// import '../assets/sityModel/txtrs/aobuild5.png'
+// import '../assets/sityModel/txtrs/aobuild6 21312.png'
+// import '../assets/sityModel/txtrs/aoground2.png'
+// import '../assets/sityModel/txtrs/aoground23123.png'
+// import '../assets/sityModel/txtrs/aomountain12312.png'
+// import '../assets/sityModel/txtrs/aosecondary.png'
+// import '../assets/sityModel/txtrs/aosecondary2.png'
 
 
 
@@ -71,6 +71,8 @@ export const createModel = (onComplete, onProcess = () => {}, onError = () => {}
 
                     console.log(materials)
 
+                    const colorsHouses = new THREE.Color(1, 1.1, 1.2)
+
 
                     const colors = {
 
@@ -90,17 +92,17 @@ export const createModel = (onComplete, onProcess = () => {}, onError = () => {}
                         'Куб009_1': new THREE.Color(.91, .93, .99),
 
                         /** дома3 */
-                        'Куб046': new THREE.Color(.86, .94, .86),
+                        'Куб046': colorsHouses,
 
                         /** дома2 */
-                        'Куб019_1': new THREE.Color(.93, 1, .93),
+                        'Куб019_1': colorsHouses,
 
                         /** factory */
-                        'Куб020': new THREE.Color(.93, 1, .93),
+                        'Куб020': colorsHouses,
                         //materials['Куб020'].map = null
 
                         /** main */
-                        'Плоскость003_2': new THREE.Color(.93, 1, .93),
+                        'Плоскость003_2': colorsHouses,
                         //materials['Плоскость003_2'].map = null
 
                         /** okna */
@@ -108,15 +110,15 @@ export const createModel = (onComplete, onProcess = () => {}, onError = () => {}
 
 
                         /** skyscreapers */
-                        'Плоскость005_2': new THREE.Color(.93, 1, .93),
+                        'Плоскость005_2': colorsHouses,
                         //materials['Плоскость005_2'].map = null
 
                         /** hotel */
-                        'Плоскость007_1': new THREE.Color(.93, 1, .93),
+                        'Плоскость007_1': colorsHouses,
                         // materials['Плоскость007_1'].map = null
 
                         /** treo  */
-                        'Плоскость008_1': new THREE.Color(.93, 1, .93),
+                        'Плоскость008_1': colorsHouses,
                         //materials['Плоскость008_1'].map = null
 
                         /** road */
@@ -136,9 +138,9 @@ export const createModel = (onComplete, onProcess = () => {}, onError = () => {}
                     for (let key in materials) {
                         if (colors[key]) {
                             materials[key].color = colors[key]
+                        } else {
+                            console.log('no material: ', key)
                         }
-                        materials[key].map = null
-
                     }
 
                     // /** top logo */
