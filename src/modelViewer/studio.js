@@ -31,12 +31,12 @@ export const createStudio = () => {
     camera.lookAt(0, 0, 0)
     scene.add(camera)
 
-    const directionalLight = new THREE.DirectionalLight( 0xFFC9F6, 0.8);
+    const directionalLight = new THREE.DirectionalLight( 0xFFC9F6, 0.9);
     directionalLight.position.set(0, 100, -100)
     directionalLight.target.position.set(0, 0, 0)
     scene.add( directionalLight );
 
-    const ambLight = new THREE.AmbientLight(0xECC9FF, .4)
+    const ambLight = new THREE.AmbientLight(0x9999FF, .4)
     scene.add(ambLight)
 
     const fog = new THREE.Fog( BACK_COLOR, 100, 500)
