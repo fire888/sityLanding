@@ -3,17 +3,7 @@ import { createLoader } from './helpers/loader'
 
 import sceneModelSrc from '../assets/sityModel/citylowcarblendwithbakecamera.gltf'
 import '../assets/sityModel/citylowcarblendwithbakecamera.bin'
-// import '../assets/sityModel/txtrs/aobuild1.png'
-// import '../assets/sityModel/txtrs/aobuild2.png'
-// import '../assets/sityModel/txtrs/aobuild3.png'
-// import '../assets/sityModel/txtrs/aobuild4.png'
-// import '../assets/sityModel/txtrs/aobuild5.png'
-// import '../assets/sityModel/txtrs/aobuild6 21312.png'
-// import '../assets/sityModel/txtrs/aoground2.png'
-// import '../assets/sityModel/txtrs/aoground23123.png'
-// import '../assets/sityModel/txtrs/aomountain12312.png'
-// import '../assets/sityModel/txtrs/aosecondary.png'
-// import '../assets/sityModel/txtrs/aosecondary2.png'
+
 
 
 
