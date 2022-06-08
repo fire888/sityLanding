@@ -35,6 +35,7 @@ export const createActions = root => {
             studio.setCamera(flyControls.getCamera())
             flyControls.enable()
             studio.setCamera(flyControls.getCamera())
+            studio.resize()
             studio.render()
             ui.hideStartScreen()
         },
@@ -45,10 +46,11 @@ export const createActions = root => {
                 walkControls.enable()
             }
             if (mode === 'fly') {
+                studio.setCamera(flyControls.getCamera())
                 walkControls.disable()
                 flyControls.enable()
-                studio.setCamera(flyControls.getCamera())
             }
+            studio.resize()
             ui.changeModeButtonWalk(mode)
         }
     }

@@ -27,8 +27,6 @@ export const createModel = (onComplete, onProcess = () => {}, onError = () => {}
                     console.log(model)
                     gltf = model
 
-                    gltf.scene.scale.set(.7, .7, .7)
-
                     const arrTrees = []
                     const arrCars = []
                     const arrCubes = []
@@ -51,7 +49,9 @@ export const createModel = (onComplete, onProcess = () => {}, onError = () => {}
                             !isIn && (materials[item.name] = item.material)
                         }
 
+
                         if (item.name.includes('ель') || item.name.includes('дерево')) {
+                            //console.log(item)
                             arrTrees.push(item)
                         }
                         if (item.name.includes('Машина')) {
@@ -133,89 +133,27 @@ export const createModel = (onComplete, onProcess = () => {}, onError = () => {}
                         }
                     }
 
-                    // /** top logo */
-                    // materials['Плоскость025_2'].color = new THREE.Color(.85, 0, .93)
-                    // /** logo2 */
-                    // materials['Плоскость025_1'].color = new THREE.Color(.85, 0, .93)
-                    //
-                    //
-                    //
-                    // /** деревья машины */
-                    // materials['дерево2346'].color = new THREE.Color(.9, 1, 1)
-                    //
-                    // /** гора */
-                    // //materials['Landscape002'].color = new THREE.Color(.90, .93, .85)
-                    // materials['Landscape002'].color = new THREE.Color(.85, 1, .93)
-                    //
-                    // /** ракета */
-                    // materials['Куб009_1'].color = new THREE.Color(.91, .93, .99)
-                    //
-                    // /** дома3 */
-                    // materials['Куб046'].color = new THREE.Color(.86, .94, .86)
-                    //
-                    // /** дома2 */
-                    // materials['Куб019_1'].color = new THREE.Color(.93, 1, .93)
-                    //
-                    // /** factory */
-                    // materials['Куб020'].color = new THREE.Color(.93, 1, .93)
-                    // materials['Куб020'].map = null
-                    //
-                    // /** main */
-                    // materials['Плоскость003_2'].color = new THREE.Color(.93, 1, .93)
-                    // materials['Плоскость003_2'].map = null
-                    //
-                    // setTimeout(() => {
-                    //     /** okna */
-                    //     if (materials['Плоскость003_3']) {
-                    //         materials['Плоскость003_3'].color = new THREE.Color(.65, .65, .7)
-                    //     }
-                    // }, 100)
-                    //
-                    //
-                    // /** skyscreapers */
-                    // materials['Плоскость005_2'].color = new THREE.Color(.93, 1, .93)
-                    // materials['Плоскость005_2'].map = null
-                    //
-                    // /** hotel */
-                    // materials['Плоскость007_1'].color = new THREE.Color(.93, 1, .93)
-                    // materials['Плоскость007_1'].map = null
-                    //
-                    // /** treo  */
-                    // materials['Плоскость008_1'].color = new THREE.Color(.93, 1, .93)
-                    // materials['Плоскость008_1'].map = null
-                    //
-                    // /** road */
-                    // materials['Плоскость009'].color = new THREE.Color(.77, .87, .93)
-                    //
-                    // /** color areas */
-                    // materials['Плоскость009_1'].color = new THREE.Color(.83, .3, .93)
-                    //
-                    // /** ground town */
-                    // materials['Плоскость009_2'].color = new THREE.Color(.83, 1, .9)
-                    //
-                    // /** land */
-                    // materials['Плоскость009_3'].color = new THREE.Color(.85, 1, .93)
-                    // materials['Плоскость009_3'].map = null
 
 
 
 
 
-                    // for (let i = 1; i < arrTrees.length; ++i) {
-                    //     const newObj = new THREE.Mesh(
-                    //         arrTrees[0].geometry,
-                    //         arrTrees[0].material,
-                    //     )
-                    //     newObj.position.x = arrTrees[i].position.x
-                    //     newObj.position.y = arrTrees[i].position.y
-                    //     newObj.position.z = arrTrees[i].position.z
-                    //
-                    //     model.scene.remove(arrTrees[i])
-                    //     arrTrees[i].geometry.dispose()
-                    //     arrTrees[i].material.dispose()
-                    //
-                    //     model.scene.add(newObj)
-                    // }
+                    for (let i = 0; i < arrTrees.length; ++i) {
+                        arrTrees[i].parent.remove(arrTrees[i])
+                        // const newObj = new THREE.Mesh(
+                        //     arrTrees[0].geometry,
+                        //     arrTrees[0].material,
+                        // )
+                        // newObj.position.x = arrTrees[i].position.x
+                        // newObj.position.y = arrTrees[i].position.y
+                        // newObj.position.z = arrTrees[i].position.z
+
+                        //model.scene.remove(arrTrees[i])
+                        //arrTrees[i].geometry.dispose()
+                        //arrTrees[i].material.dispose()
+
+                        //model.scene.add(newObj)
+                    }
 
                     // for (let i = 0; i < arrCars.length; ++i) {
                     //     arrCars[i].geometry.dispose()
@@ -234,10 +172,10 @@ export const createModel = (onComplete, onProcess = () => {}, onError = () => {}
                     //     arrCars[i].material.dispose()
                     // }
 
-                    model.scene.traverse(item => {
-                        if (!item.name) {
-                            return;
-                        }
+                    //model.scene.traverse(item => {
+                    //    if (!item.name) {
+                    //        return;
+                    //    }
 
                         // if (
                         //     //true
@@ -251,7 +189,7 @@ export const createModel = (onComplete, onProcess = () => {}, onError = () => {}
                         // }
 
                         //console.log(item.name)
-                    })
+                    //})
 
                     // for (let i = 0; i < arrCubes.length; ++i) {
                     //     model.scene.remove(arrCubes[i])
@@ -274,12 +212,11 @@ export const createModel = (onComplete, onProcess = () => {}, onError = () => {}
 
 
 
-                    cameraForAnimationMixer = new THREE.AnimationMixer( gltf.scene.children[0] )
-                    const cameraForAnimationClip = gltf.animations[0]
-                    speedCam = 1 / (cameraForAnimationClip.duration - 0.01);
-                    const cameraForAnimationAction = cameraForAnimationMixer.clipAction(cameraForAnimationClip)
-                    cameraForAnimationAction.play()
-
+                    // cameraForAnimationMixer = new THREE.AnimationMixer( gltf.scene.children[0] )
+                    // const cameraForAnimationClip = gltf.animations[0]
+                    // speedCam = 1 / (cameraForAnimationClip.duration - 0.01);
+                    // const cameraForAnimationAction = cameraForAnimationMixer.clipAction(cameraForAnimationClip)
+                    // cameraForAnimationAction.play()
 
                     resolve()
                 })
@@ -296,8 +233,6 @@ export const createModel = (onComplete, onProcess = () => {}, onError = () => {}
                 return
             }
             mixer.update(0.008 * n)
-            //cameraForAnimationMixer
-            //cameraForAnimationMixer.update()
         },
         updateAnimationCamera (phase) {
             console.log('update')
@@ -311,3 +246,73 @@ export const createModel = (onComplete, onProcess = () => {}, onError = () => {}
         }
     }
 }
+
+
+
+
+
+
+// /** top logo */
+// materials['Плоскость025_2'].color = new THREE.Color(.85, 0, .93)
+// /** logo2 */
+// materials['Плоскость025_1'].color = new THREE.Color(.85, 0, .93)
+//
+//
+//
+// /** деревья машины */
+// materials['дерево2346'].color = new THREE.Color(.9, 1, 1)
+//
+// /** гора */
+// //materials['Landscape002'].color = new THREE.Color(.90, .93, .85)
+// materials['Landscape002'].color = new THREE.Color(.85, 1, .93)
+//
+// /** ракета */
+// materials['Куб009_1'].color = new THREE.Color(.91, .93, .99)
+//
+// /** дома3 */
+// materials['Куб046'].color = new THREE.Color(.86, .94, .86)
+//
+// /** дома2 */
+// materials['Куб019_1'].color = new THREE.Color(.93, 1, .93)
+//
+// /** factory */
+// materials['Куб020'].color = new THREE.Color(.93, 1, .93)
+// materials['Куб020'].map = null
+//
+// /** main */
+// materials['Плоскость003_2'].color = new THREE.Color(.93, 1, .93)
+// materials['Плоскость003_2'].map = null
+//
+// setTimeout(() => {
+//     /** okna */
+//     if (materials['Плоскость003_3']) {
+//         materials['Плоскость003_3'].color = new THREE.Color(.65, .65, .7)
+//     }
+// }, 100)
+//
+//
+// /** skyscreapers */
+// materials['Плоскость005_2'].color = new THREE.Color(.93, 1, .93)
+// materials['Плоскость005_2'].map = null
+//
+// /** hotel */
+// materials['Плоскость007_1'].color = new THREE.Color(.93, 1, .93)
+// materials['Плоскость007_1'].map = null
+//
+// /** treo  */
+// materials['Плоскость008_1'].color = new THREE.Color(.93, 1, .93)
+// materials['Плоскость008_1'].map = null
+//
+// /** road */
+// materials['Плоскость009'].color = new THREE.Color(.77, .87, .93)
+//
+// /** color areas */
+// materials['Плоскость009_1'].color = new THREE.Color(.83, .3, .93)
+//
+// /** ground town */
+// materials['Плоскость009_2'].color = new THREE.Color(.83, 1, .9)
+//
+// /** land */
+// materials['Плоскость009_3'].color = new THREE.Color(.85, 1, .93)
+// materials['Плоскость009_3'].map = null
+
