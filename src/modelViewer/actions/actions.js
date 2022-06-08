@@ -59,7 +59,6 @@ export const createActions = root => {
                 flyControls.enable()
             }
             studio.resize()
-            ui.changeModeButtonWalk(mode)
         },
         animatedCameraFlyTo (key) {
             console.log(key)
