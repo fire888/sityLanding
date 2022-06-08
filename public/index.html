@@ -15,13 +15,29 @@
         width: 100vw;
         height: 100vh;
     }
-    #walk-button {
+    #fly-button {
         position: absolute;
         right: 0;
         top: 0;
         z-index: 5;
+        cursor: pointer;
+    }
+    #walk-button {
+        position: absolute;
+        right: 0;
+        top: 25px;
+        z-index: 5;
+        cursor: pointer;
+    }
+    #fly-buttons-cont {
+        position: absolute;
+        right: 0;
+        top: 80px;
+        z-index: 5;
         font-size: 25px;
         cursor: pointer;
+        display: flex;
+        flex-direction: column;
     }
     #loading {
         left: 0;
@@ -50,6 +66,30 @@
     <div>wait</div>
 </div>
 <div id="scene"></div>
-<button id="walk-button">walk</button>>
+<button id="fly-button">fly</button>
+<button id="walk-button">walk</button>
+<div id="fly-buttons-cont"></div>
+<script>
+
+    arrFlyTo = [
+        'start',
+        'main',
+        'hotel',
+        'business',
+        'factory',
+        'rocket',
+        'apart',
+    ]
+
+    const fly = () => {
+        window.GLOBAL &&
+            window.GLOBAL.animatedCameraFlyTo &&
+                window.GLOBAL.animatedCameraFlyTo(arrFlyTo[Math.floor(Math.random() * arrFlyTo.length)])
+        setTimeout(fly, 3000)
+    }
+    //fly() // !!!!!!!!!!!!!! UNCOMMENT
+
+
+</script>
 </body>
 </html>

@@ -6,6 +6,7 @@ export const createActions = root => {
         stats,
         flyControls,
         walkControls,
+        animatedCamera,
         ui,
     } = root
 
@@ -19,9 +20,12 @@ export const createActions = root => {
         const diff = currentTime - oldTime
         oldTime = currentTime
         stats.begin()
+
         city.update(diff / 15)
         flyControls.update()
         walkControls.update()
+        animatedCamera.update()
+
         studio.render()
         stats.end()
     }
@@ -41,17 +45,30 @@ export const createActions = root => {
         },
         toggleViewMode (mode) {
             if (mode === 'walk') {
-                studio.setCamera(walkControls.getCamera())
+                animatedCamera.disable()
                 flyControls.disable()
+
+                studio.setCamera(walkControls.getCamera())
                 walkControls.enable()
             }
             if (mode === 'fly') {
-                studio.setCamera(flyControls.getCamera())
+                animatedCamera.disable()
                 walkControls.disable()
+
+                studio.setCamera(flyControls.getCamera())
                 flyControls.enable()
             }
             studio.resize()
             ui.changeModeButtonWalk(mode)
+        },
+        animatedCameraFlyTo (key) {
+            console.log(key)
+            flyControls.disable()
+            walkControls.disable()
+
+            animatedCamera.enable()
+            animatedCamera.flyTo(key)
+            studio.setCamera(animatedCamera.getCamera())
         }
     }
 }

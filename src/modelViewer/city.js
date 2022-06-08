@@ -24,7 +24,7 @@ export const createModel = (onComplete, onProcess = () => {}, onError = () => {}
         initModel () {
             return new Promise(resolve => {
                 loader.load(sceneModelSrc, onError, onProcess, model => {
-                    console.log(model)
+                    //console.log(model)
                     gltf = model
 
                     const arrTrees = []
@@ -59,7 +59,7 @@ export const createModel = (onComplete, onProcess = () => {}, onError = () => {}
                         }
                     })
 
-                    console.log(materials)
+                    //console.log(materials)
 
                     const colorsHouses = new THREE.Color(1, 1.1, 1.2)
 

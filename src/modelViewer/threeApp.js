@@ -7,7 +7,7 @@ import { createActions } from './actions/actions'
 import { createUi } from './ui/ui'
 import { createWalkControls } from './CameraWalk'
 import { createFlyControls } from "./CameraFly";
-
+import { createAnimatedCamera } from './CameraAnim'
 
 export const threeApp = () => {
     const root = {}
@@ -26,8 +26,11 @@ export const threeApp = () => {
     root.ui = createUi(root)
     root.walkControls = createWalkControls(root)
     root.flyControls = createFlyControls(root)
+    root.animatedCamera = createAnimatedCamera(root)
 
     root.actions = createActions(root)
+    window.GLOBAL = { animatedCameraFlyTo: root.actions.animatedCameraFlyTo }
+
     root.actions.launch()
 
     const isWebGL = () => {

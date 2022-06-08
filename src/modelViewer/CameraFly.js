@@ -8,11 +8,11 @@ const TARGET_POS = [-55.48468777487933,-16.153006104687872,161.88826713723594]
 
 export const createFlyControls = root => {
     const camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, .01, 3000);
-    //camera.position.set( -131, 45, 75);
     camera.position.set(...CAM_POS);
 
     document.addEventListener('click', () => {
-        console.log('FlyCamPos:', camera.position.toArray(), controls.target.toArray())
+        console.log('FlyCamPos:')
+        console.log(`cam: ${JSON.stringify(camera.position.toArray())}, target: ${JSON.stringify(controls.target.toArray())}`)
     })
 
 

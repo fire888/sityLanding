@@ -42,7 +42,8 @@ module.exports = {
             template: './public/index.html'
 		}),
 		new webpack.ProvidePlugin({
-			THREE: 'three'
+			THREE: 'three',
+            'GLOBAL': '',
 		})
 	]
 };

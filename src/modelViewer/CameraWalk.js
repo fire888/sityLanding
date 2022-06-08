@@ -26,9 +26,9 @@ export const createWalkControls = (root) => {
     camera.position.set( ...CAM_POS);
     camera.rotation.set( ...CAM_ROT);
 
-    document.addEventListener('click', () => {
-        console.log('WalkCamPos:', camera.position.toArray(), camera.rotation.toArray())
-    })
+    // document.addEventListener('click', () => {
+    //     console.log('WalkCamPos:', camera.position.toArray(), camera.rotation.toArray())
+    // })
 
     const controls = new PointerLockControls( camera, document.body )
     controls.disconnect()
@@ -107,7 +107,6 @@ export const createWalkControls = (root) => {
 
 
     let isUpdate = false
-    console.log(controls)
 
 
     return {
