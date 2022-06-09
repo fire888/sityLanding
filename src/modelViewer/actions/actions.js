@@ -48,6 +48,7 @@ export const createActions = root => {
         studio.addToScene(city.getScene())
 
         let currentCamera
+
         if (animatedCamera) {
             currentCamera = animatedCamera
         } else if (orbitControls) {
@@ -56,8 +57,10 @@ export const createActions = root => {
             currentCamera = walkControls
         }
 
-        studio.setCamera(currentCamera.getCamera())
-        currentCamera.enable()
+        if (currentCamera) {
+            studio.setCamera(currentCamera.getCamera())
+            currentCamera.enable()
+        }
 
         studio.resize()
         studio.render()
@@ -67,33 +70,37 @@ export const createActions = root => {
 
 
     /** change view mode */
-    const toggleViewMode = (mode, params) => {
+    const toggleViewMode = (mode, params = null) => {
         animatedCamera && animatedCamera.disable()
         orbitControls && orbitControls.disable()
         walkControls && walkControls.disable()
+
+        let currentCamera = null
 
         if (mode === WALK) {
             if (!walkControls) {
                 return;
             }
-            studio.setCamera(walkControls.getCamera())
-            walkControls.enable()
+            currentCamera = walkControls
         }
-        if (mode === ORBIT) {
+        else if (mode === ORBIT) {
             if (!orbitControls) {
                 return;
             }
-            studio.setCamera(orbitControls.getCamera())
-            orbitControls.enable()
+            currentCamera = orbitControls
         }
-        if (mode === ANIMATE) {
+        else if (mode === ANIMATE) {
             if (!animatedCamera) {
                 return;
             }
-            animatedCamera.enable()
+            currentCamera = animatedCamera
             animatedCamera.flyTo(params)
-            studio.setCamera(animatedCamera.getCamera())
+        } else {
+            return;
         }
+
+        currentCamera.enable()
+        studio.setCamera(currentCamera.getCamera())
 
         studio.resize()
         studio.render()
