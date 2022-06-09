@@ -16,18 +16,15 @@ export const threeApp = () => {
     }
 
     const root = {}
+
     root.ui = createUi(root)
-
-
     root.city = createModel(root)
     root.studio = createStudio(root)
     root.stats = new Stats()
     document.body.appendChild(root.stats.dom)
-
     root.walkControls = createWalkControls(root)
     root.orbitControls = createOrbitControls(root)
     root.animatedCamera = createAnimatedCamera(root)
-
     root.actions = createActions(root)
     window.GLOBAL = { animatedCameraFlyTo: root.actions.animatedCameraFlyTo }
 
