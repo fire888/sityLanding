@@ -6,6 +6,7 @@ const CAM_POS = [-5.633584163272158, 0.5, 144.70318958172498]
 const CAM_ROT = [0.29128228898346925, 1.3032280577505277, -0.2814654005317702]
 
 export const createWalkControls = (root) => {
+    let isEnable = false
 
     let moveForward = false;
     let moveBackward = false;
@@ -18,17 +19,17 @@ export const createWalkControls = (root) => {
     const direction = new THREE.Vector3();
 
 
+    let camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, .01, 3000)
+    camera.position.set( ...CAM_POS)
+    camera.rotation.set( ...CAM_ROT)
 
-
-    let camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, .01, 3000);
-    //camera.position.set( -50, .7, 50);
-    //camera.rotation.set( 0, 3.14, 0);
-    camera.position.set( ...CAM_POS);
-    camera.rotation.set( ...CAM_ROT);
-
-    // document.addEventListener('click', () => {
-    //     console.log('WalkCamPos:', camera.position.toArray(), camera.rotation.toArray())
-    // })
+    document.addEventListener('click', () => {
+        if (!isEnable) {
+            return;
+        }
+        console.log('WalkCamPos:')
+        console.log(`{ cam: ${JSON.stringify(camera.position.toArray())}, rot: ${JSON.stringify(camera.rotation.toArray())} },`)
+    })
 
     const controls = new PointerLockControls( camera, document.body )
     controls.disconnect()
@@ -106,18 +107,16 @@ export const createWalkControls = (root) => {
     document.addEventListener( 'keyup', onKeyUp );
 
 
-    let isUpdate = false
-
 
     return {
         getCamera () {
             return camera
         },
         enable () {
-            if (isUpdate) {
+            if (isEnable) {
                 return;
             }
-            isUpdate = true
+            isEnable = true
             console.log('walk activate')
 
             prevTime = performance.now()
@@ -126,17 +125,17 @@ export const createWalkControls = (root) => {
 
         },
         disable () {
-            if (!isUpdate) {
+            if (!isEnable) {
                 return;
             }
-            isUpdate = false
+            isEnable = false
             console.log('walk deactivate')
 
             controls.unlock();
             controls.disconnect()
         },
         update () {
-            if (!isUpdate) {
+            if (!isEnable) {
                 return;
             }
 

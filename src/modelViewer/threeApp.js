@@ -1,17 +1,35 @@
-import WebGL from 'three/examples/jsm/capabilities/WebGL';
 import Stats from 'three/examples/jsm/libs/stats.module.js';
 
-import { createStudio } from './studio'
-import { createModel } from './city'
+import { createStudio } from './entities/studio'
+import { createModel } from './entities/city'
 import { createActions } from './actions/actions'
 import { createUi } from './ui/ui'
-import { createWalkControls } from './CameraWalk'
-import { createFlyControls } from "./CameraFly";
-import { createAnimatedCamera } from './CameraAnim'
+import { createWalkControls } from './entities/CameraWalk'
+import { createOrbitControls } from "./entities/CameraControls";
+import { createAnimatedCamera } from './entities/CameraAnim'
+import { isWebGL } from "./helpers/isWebGl";
+
 
 export const threeApp = () => {
-    const root = {}
+    if (!isWebGL()) {
+        return;
+    }
 
+    const root = {}
+    root.ui = createUi(root)
+
+
+    root.city = createModel(root)
+    root.studio = createStudio(root)
+    root.stats = new Stats()
+    document.body.appendChild(root.stats.dom)
+
+    root.walkControls = createWalkControls(root)
+    root.orbitControls = createOrbitControls(root)
+    root.animatedCamera = createAnimatedCamera(root)
+
+    root.actions = createActions(root)
+    window.GLOBAL = { animatedCameraFlyTo: root.actions.animatedCameraFlyTo }
 
     const onWindowResize = () =>  {
         root.studio && root.studio.resize()
@@ -19,29 +37,7 @@ export const threeApp = () => {
     window.addEventListener('resize', onWindowResize, false)
     onWindowResize()
 
-    root.city = createModel(root)
-    root.studio = createStudio(root)
-    root.stats = new Stats();
-    document.body.appendChild(root.stats.dom)
-    root.ui = createUi(root)
-    root.walkControls = createWalkControls(root)
-    root.flyControls = createFlyControls(root)
-    root.animatedCamera = createAnimatedCamera(root)
-
-    root.actions = createActions(root)
-    window.GLOBAL = { animatedCameraFlyTo: root.actions.animatedCameraFlyTo }
-
-    root.actions.launch()
-
-    const isWebGL = () => {
-        if ( WebGL.isWebGLAvailable() ) {
-        } else {
-            const warning = WebGL.getWebGLErrorMessage();
-            document.getElementById( 'container' ).appendChild( warning );
-
-        }
-    }
-    isWebGL()
+    root.actions.launch().then()
 }
 
 

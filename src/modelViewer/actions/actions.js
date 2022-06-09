@@ -1,10 +1,17 @@
+import {
+    ORBIT,
+    WALK,
+    ANIMATE,
+} from "../constants/constants";
+
+
 export const createActions = root => {
 
     const {
         studio,
         city,
         stats,
-        flyControls,
+        orbitControls,
         walkControls,
         animatedCamera,
         ui,
@@ -15,59 +22,87 @@ export const createActions = root => {
     let oldTime = Date.now()
 
     const animate = () => {
-        requestAnimationFrame( animate );
+        requestAnimationFrame(animate)
         const currentTime = Date.now()
         const diff = currentTime - oldTime
         oldTime = currentTime
-        stats.begin()
+
+        stats && stats.begin()
 
         city.update(diff / 15)
-        flyControls.update()
-        walkControls.update()
-        animatedCamera.update()
+
+        orbitControls && orbitControls.update()
+        walkControls && walkControls.update()
+        animatedCamera && animatedCamera.update()
 
         studio.render()
-        stats.end()
+
+        stats && stats.end()
     }
     animate()
 
 
-    return {
-        launch: async function () {
-            await city.initModel()
-            studio.addToScene(city.getScene())
-            studio.setCamera(flyControls.getCamera())
-            flyControls.enable()
-            studio.setCamera(flyControls.getCamera())
-            studio.resize()
-            studio.render()
-            ui.hideStartScreen()
-        },
-        toggleViewMode (mode) {
-            if (mode === 'walk') {
-                animatedCamera.disable()
-                flyControls.disable()
+    /** launch pipeline */
+    async function launch () {
+        await city.initModel()
+        studio.addToScene(city.getScene())
 
-                studio.setCamera(walkControls.getCamera())
-                walkControls.enable()
+        let currentCamera
+        if (animatedCamera) {
+            currentCamera = animatedCamera
+        } else if (orbitControls) {
+            currentCamera = orbitControls
+        } else if (walkControls) {
+            currentCamera = walkControls
+        }
+
+        studio.setCamera(currentCamera.getCamera())
+        currentCamera.enable()
+
+        studio.resize()
+        studio.render()
+
+        ui && ui.hideStartScreen()
+    }
+
+
+    /** change view mode */
+    const toggleViewMode = (mode, params) => {
+        animatedCamera && animatedCamera.disable()
+        orbitControls && orbitControls.disable()
+        walkControls && walkControls.disable()
+
+        if (mode === WALK) {
+            if (!walkControls) {
+                return;
             }
-            if (mode === 'fly') {
-                animatedCamera.disable()
-                walkControls.disable()
-
-                studio.setCamera(flyControls.getCamera())
-                flyControls.enable()
+            studio.setCamera(walkControls.getCamera())
+            walkControls.enable()
+        }
+        if (mode === ORBIT) {
+            if (!orbitControls) {
+                return;
             }
-            studio.resize()
-        },
-        animatedCameraFlyTo (key) {
-            console.log(key)
-            flyControls.disable()
-            walkControls.disable()
-
+            studio.setCamera(orbitControls.getCamera())
+            orbitControls.enable()
+        }
+        if (mode === ANIMATE) {
+            if (!animatedCamera) {
+                return;
+            }
             animatedCamera.enable()
-            animatedCamera.flyTo(key)
+            animatedCamera.flyTo(params)
             studio.setCamera(animatedCamera.getCamera())
         }
+
+        studio.resize()
+        studio.render()
+    }
+
+
+    return {
+        launch,
+        toggleViewMode,
+        animatedCameraFlyTo: keyFlyTo => toggleViewMode(ANIMATE, keyFlyTo)
     }
 }

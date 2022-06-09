@@ -1,25 +1,38 @@
-import { POSES } from '../CameraAnim'
+import { POSES } from '../entities/CameraAnim'
+import {
+    ORBIT,
+    WALK,
+    ANIMATE,
+} from "../constants/constants";
 
 
 export const createUi = root => {
-
-    const buttonFly = document.querySelector('#fly-button')
-    buttonFly.addEventListener('click', () => {
-        root.actions.toggleViewMode('fly')
+    const buttonOrbit = document.querySelector('#fly-button')
+    buttonOrbit.innerText = ORBIT
+    buttonOrbit.addEventListener('click', () => {
+        root.actions.toggleViewMode(ORBIT)
     })
+    buttonOrbit.style.display = 'block'
+
+
 
     const buttonWalk = document.querySelector('#walk-button')
+    buttonWalk.innerText = WALK
     buttonWalk.addEventListener('click', () => {
-        root.actions.toggleViewMode('walk')
+        root.actions.toggleViewMode(WALK)
     })
+    buttonWalk.style.display = 'block'
+
+
 
     /** animated cam buttons container */
     const containerFlyButtons = document.querySelector('#fly-buttons-cont')
+    containerFlyButtons.style.display = 'flex'
     for (let key in POSES) {
         const but = document.createElement('button')
         but.innerText = key
         but.addEventListener('click', () => {
-            root.actions.animatedCameraFlyTo(key)
+            root.actions.toggleViewMode(ANIMATE, key)
         })
         containerFlyButtons.appendChild(but)
     }
@@ -27,6 +40,7 @@ export const createUi = root => {
 
     /** loading */
     const startScreen = document.querySelector('#loading')
+    startScreen.style.display = 'flex'
     const progress = document.querySelector('#progress')
     let str = ''
     let timer = null

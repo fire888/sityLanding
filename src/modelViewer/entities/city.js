@@ -1,8 +1,8 @@
 import * as THREE from 'three';
-import { createLoader } from './helpers/loader'
+import { createLoader } from '../helpers/loader'
 
-import sceneModelSrc from '../assets/sityModel/citylowcarblendwithbakecamera.gltf'
-import '../assets/sityModel/citylowcarblendwithbakecamera.bin'
+import sceneModelSrc from '../../assets/sityModel/citylowcarblendwithbakecamera.gltf'
+import '../../assets/sityModel/citylowcarblendwithbakecamera.bin'
 
 
 
@@ -234,16 +234,16 @@ export const createModel = (onComplete, onProcess = () => {}, onError = () => {}
             }
             mixer.update(0.008 * n)
         },
-        updateAnimationCamera (phase) {
-            console.log('update')
-            if (!cameraForAnimationMixer) {
-               return;
-            }
-            const diff = phase - oldPhaseCam
-            oldPhaseCam = phase
-
-            cameraForAnimationMixer.update(diff / speedCam)
-        }
+        // updateAnimationCamera (phase) {
+        //     console.log('update')
+        //     if (!cameraForAnimationMixer) {
+        //        return;
+        //     }
+        //     const diff = phase - oldPhaseCam
+        //     oldPhaseCam = phase
+        //
+        //     cameraForAnimationMixer.update(diff / speedCam)
+        // }
     }
 }
 

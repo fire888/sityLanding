@@ -1,6 +1,7 @@
 import * as THREE from 'three';
-import { createLinear } from './helpers/tween'
+import { createLinear } from '../helpers/tween'
 
+const DURATION_CHANGE_POSE = 1000
 
 export const POSES = {
     start: {
@@ -61,12 +62,12 @@ export const createAnimatedCamera = () => {
         vTargetStart.copy(vTarget)
         vTargetEnd.fromArray(POSES[targetPosKey].target)
 
-        tween = createLinear(1000)
+        tween = createLinear(DURATION_CHANGE_POSE)
     }
     const updateTween = () => {
         tween(val => {
-            vTarget.lerpVectors(vTargetStart, vTargetEnd, val)
             camera.position.lerpVectors(vCamStart, vCamEnd, val)
+            vTarget.lerpVectors(vTargetStart, vTargetEnd, val)
             camera.lookAt(vTarget)
             if (val === 1) {
                 currentPosKey = targetPosKey
