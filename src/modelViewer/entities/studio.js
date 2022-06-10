@@ -56,8 +56,8 @@ export const createStudio = () => {
     const ambLight = new THREE.AmbientLight(0x9999FF, .7)
     scene.add(ambLight)
 
-    const fog = new THREE.Fog( BACK_COLOR, 30, 80)
-    scene.fog = fog
+    //const fog = new THREE.Fog( BACK_COLOR, 30, 80)
+    //scene.fog = fog
 
 
     return {

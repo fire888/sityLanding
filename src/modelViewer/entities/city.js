@@ -24,7 +24,6 @@ export const createModel = (onComplete, onProcess = () => {}, onError = () => {}
         initModel () {
             return new Promise(resolve => {
                 loader.load(sceneModelSrc, onError, onProcess, model => {
-                    //console.log(model)
                     gltf = model
 
                     const arrTrees = []
@@ -34,30 +33,30 @@ export const createModel = (onComplete, onProcess = () => {}, onError = () => {}
                     const materials = {}
 
 
-                    model.scene.traverse(item => {
-                        if (!item.name) {
-                            return;
-                        }
-
-                        if (item.material) {
-                            let isIn = false
-                            for (let key in materials) {
-                                if (materials[key].uuid === item.material.uuid) {
-                                    isIn = true
-                                }
-                            }
-                            !isIn && (materials[item.name] = item.material)
-                        }
-
-
-                        if (item.name.includes('ель') || item.name.includes('дерево')) {
-                            //console.log(item)
-                            arrTrees.push(item)
-                        }
-                        if (item.name.includes('Машина')) {
-                            arrCars.push(item)
-                        }
-                    })
+                    // model.scene.traverse(item => {
+                    //     if (!item.name) {
+                    //         return;
+                    //     }
+                    //
+                    //     if (item.material) {
+                    //         let isIn = false
+                    //         for (let key in materials) {
+                    //             if (materials[key].uuid === item.material.uuid) {
+                    //                 isIn = true
+                    //             }
+                    //         }
+                    //         !isIn && (materials[item.name] = item.material)
+                    //     }
+                    //
+                    //
+                    //     if (item.name.includes('ель') || item.name.includes('дерево')) {
+                    //         //console.log(item)
+                    //         arrTrees.push(item)
+                    //     }
+                    //     if (item.name.includes('Машина')) {
+                    //         arrCars.push(item)
+                    //     }
+                    // })
 
                     //console.log(materials)
 
@@ -125,35 +124,35 @@ export const createModel = (onComplete, onProcess = () => {}, onError = () => {}
                         //materials['Плоскость009_3'].map = null
                     }
 
-                    for (let key in materials) {
-                        if (colors[key]) {
-                            materials[key].color = colors[key]
-                        } else {
-                            console.log('no material: ', key)
-                        }
-                    }
+                    // for (let key in materials) {
+                    //     if (colors[key]) {
+                    //         materials[key].color = colors[key]
+                    //     } else {
+                    //         console.log('no material: ', key)
+                    //     }
+                    // }
 
 
 
 
 
 
-                    for (let i = 0; i < arrTrees.length; ++i) {
-                        arrTrees[i].parent.remove(arrTrees[i])
-                        // const newObj = new THREE.Mesh(
-                        //     arrTrees[0].geometry,
-                        //     arrTrees[0].material,
-                        // )
-                        // newObj.position.x = arrTrees[i].position.x
-                        // newObj.position.y = arrTrees[i].position.y
-                        // newObj.position.z = arrTrees[i].position.z
-
-                        //model.scene.remove(arrTrees[i])
-                        //arrTrees[i].geometry.dispose()
-                        //arrTrees[i].material.dispose()
-
-                        //model.scene.add(newObj)
-                    }
+                    // for (let i = 0; i < arrTrees.length; ++i) {
+                    //     arrTrees[i].parent.remove(arrTrees[i])
+                    //     // const newObj = new THREE.Mesh(
+                    //     //     arrTrees[0].geometry,
+                    //     //     arrTrees[0].material,
+                    //     // )
+                    //     // newObj.position.x = arrTrees[i].position.x
+                    //     // newObj.position.y = arrTrees[i].position.y
+                    //     // newObj.position.z = arrTrees[i].position.z
+                    //
+                    //     //model.scene.remove(arrTrees[i])
+                    //     //arrTrees[i].geometry.dispose()
+                    //     //arrTrees[i].material.dispose()
+                    //
+                    //     //model.scene.add(newObj)
+                    // }
 
                     // for (let i = 0; i < arrCars.length; ++i) {
                     //     arrCars[i].geometry.dispose()

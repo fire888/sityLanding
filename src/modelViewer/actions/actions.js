@@ -49,11 +49,13 @@ export const createActions = root => {
 
         let currentCamera
 
-        if (animatedCamera) {
-            currentCamera = animatedCamera
-        } else if (orbitControls) {
+        if (orbitControls) {
             currentCamera = orbitControls
-        } else if (walkControls) {
+        }
+        else if (animatedCamera) {
+            currentCamera = animatedCamera
+        }
+        else if (walkControls) {
             currentCamera = walkControls
         }
 
